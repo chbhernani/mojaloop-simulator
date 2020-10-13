@@ -27,6 +27,8 @@ const partyTable = 'party';
 const quoteTable = 'quote';
 const transactionRequestTable = 'transactionRequest';
 const transferTable = 'transfer';
+const bulkQuoteTable = 'bulkQuote';
+const bulkTransferTable = 'bulkTransfer';
 const partyExtensionTable = 'partyExtension';
 
 const createPartyTable = `
@@ -60,6 +62,16 @@ CREATE TABLE IF NOT EXISTS ${quoteTable} (
 )
 `;
 
+const createBulkQuoteTable = `
+CREATE TABLE IF NOT EXISTS ${bulkQuoteTable} (
+    id TEXT NOT NULL PRIMARY KEY,
+    request TEXT,
+    response TEXT,
+    created TIMESTAMP
+    CHECK(id <> '')
+)
+`;
+
 const createTransactionRequestTable = `
 CREATE TABLE IF NOT EXISTS ${transactionRequestTable} (
     id TEXT NOT NULL PRIMARY KEY,
@@ -79,26 +91,29 @@ CREATE TABLE IF NOT EXISTS ${transferTable} (
 )
 `;
 
-const createAccountTable = `
-CREATE TABLE IF NOT EXISTS ${partyAccountsTable} (
-    address TEXT NOT NULL PRIMARY KEY,
-    currency TEXT NOT NULL,
-    description TEXT NOT NULL,
-    idValue TEXT NOT NULL,
-    FOREIGN KEY (idValue) REFERENCES party(idValue) ON DELETE CASCADE
+const createBulkTransferTable = `
+CREATE TABLE IF NOT EXISTS ${bulkTransferTable} (
+    id TEXT NOT NULL PRIMARY KEY,
+    request TEXT,
+    response TEXT,
+    CHECK(id <> '')
 )
 `;
 
 module.exports = {
     partyTable,
     quoteTable,
+    bulkQuoteTable,
+    transferTable,
+    bulkTransferTable,
     transactionRequestTable,
+    partyExtensionTable,
     createPartyTable,
     createQuoteTable,
-    createTransactionRequestTable,
+    createBulkQuoteTable,
+    createBulkTransferTable,
     createTransferTable,
-    transferTable,
-    partyExtensionTable,
+    createTransactionRequestTable,
     createPartyExtensionTable,
     partyAccountsTable,
     createAccountTable,
